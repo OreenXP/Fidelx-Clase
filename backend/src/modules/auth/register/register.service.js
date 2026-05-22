@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { sendVerificacionCliente } from "../../email/email.service.js";
 import { sendVerificacionTienda } from "../../email/email.service.js";
 
+//====================REGISTER PARA CLIENTES====================== //
 export async function registrarCliente(
   nombre,
   apellido,
