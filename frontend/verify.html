@@ -24,55 +24,72 @@
     <div class="verify-card" id="verifyCard">
       <div class="spinner-lg"></div>
       <h1>Verificando cuenta...</h1>
-      <p>Por favor espera un momento.</p>
+      <p>Conectando con el servidor...</p>
     </div>
   </main>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-    const tipo = params.get('tipo') || 'cliente';
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const tipo = params.get('tipo') || 'cliente';
+      const card = document.getElementById('verifyCard');
 
-    const card = document.getElementById('verifyCard');
+      if (!token) {
+        card.innerHTML = `
+          <span class="verify-icon">&#10060;</span>
+          <h1>Enlace inválido</h1>
+          <p>No se encontró el token de verificación. Revisa el enlace del correo.</p>
+          <p style="font-size:0.8rem;color:var(--gray-400);margin-top:8px;">URL: ${window.location.href}</p>
+          <a href="index.html" class="btn btn-primary" style="margin-top:24px;">Ir al inicio</a>
+        `;
+        return;
+      }
 
-    if (!token) {
-      card.innerHTML = `
-        <span class="verify-icon">&#10060;</span>
-        <h1>Enlace inválido</h1>
-        <p>No se encontró el token de verificación. Revisa el enlace del correo.</p>
-        <a href="index.html" class="btn btn-primary" style="margin-top:24px;">Ir al inicio</a>
-      `;
-    } else {
       const endpoint = tipo === 'tienda' ? '/auth/verify-tienda' : '/auth/verify-client';
+      const url = `http://localhost:3000${endpoint}?token=${encodeURIComponent(token)}`;
 
-      fetch(`http://localhost:3000${endpoint}?token=${token}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.mensaje || data.error?.includes('verificado')) {
-            card.innerHTML = `
-              <span class="verify-icon">&#10003;</span>
-              <h1>Cuenta verificada</h1>
-              <p>${data.mensaje || 'Tu cuenta ha sido verificada exitosamente.'}</p>
-              <a href="login.html" class="btn btn-primary" style="margin-top:24px;">Iniciar Sesión</a>
-            `;
-          } else {
-            card.innerHTML = `
-              <span class="verify-icon">&#10060;</span>
-              <h1>Error al verificar</h1>
-              <p>${data.error || 'No se pudo verificar la cuenta. El enlace podría haber expirado.'}</p>
-              <a href="index.html" class="btn btn-primary" style="margin-top:24px;">Volver al inicio</a>
-            `;
-          }
-        })
-        .catch(() => {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+        const data = await res.json();
+
+        if (res.ok) {
           card.innerHTML = `
-            <span class="verify-icon">&#10060;</span>
-            <h1>Error de conexión</h1>
-            <p>No se pudo conectar con el servidor. Asegúrate de que el backend esté corriendo.</p>
-            <a href="index.html" class="btn btn-primary" style="margin-top:24px;">Volver al inicio</a>
+            <span class="verify-icon">&#10003;</span>
+            <h1>¡Cuenta verificada!</h1>
+            <p>${data.mensaje || 'Tu cuenta ha sido verificada exitosamente.'}</p>
+            <a href="login.html" class="btn btn-primary" style="margin-top:24px;">Iniciar Sesión</a>
           `;
-        });
-    }
+        } else {
+          const esYaVerificado = data.error?.toLowerCase().includes('ya está verificad');
+          card.innerHTML = `
+            <span class="verify-icon">${esYaVerificado ? '&#10003;' : '&#10060;'}</span>
+            <h1>${esYaVerificado ? 'Ya está verificada' : 'Error al verificar'}</h1>
+            <p>${data.error || 'No se pudo verificar la cuenta.'}</p>
+            ${esYaVerificado ? '<p style="color:var(--gray-400);font-size:0.85rem;">Tu cuenta ya estaba verificada. Puedes iniciar sesión.</p>' : ''}
+            <a href="${esYaVerificado ? 'login.html' : 'index.html'}" class="btn btn-primary" style="margin-top:24px;">${esYaVerificado ? 'Iniciar Sesión' : 'Volver al inicio'}</a>
+          `;
+        }
+      } catch (err) {
+        const msg = err.name === 'AbortError'
+          ? 'El servidor no respondió a tiempo. Asegúrate de que el backend esté corriendo en localhost:3000.'
+          : err.message.includes('Failed to fetch')
+            ? 'No se pudo conectar con el backend. Asegúrate de que esté corriendo en localhost:3000.'
+            : err.message;
+
+        card.innerHTML = `
+          <span class="verify-icon">&#10060;</span>
+          <h1>Error de conexión</h1>
+          <p>${msg}</p>
+          <p style="font-size:0.8rem;color:var(--gray-400);margin-top:8px;">URL: ${url}</p>
+          <a href="index.html" class="btn btn-primary" style="margin-top:24px;">Volver al inicio</a>
+        `;
+      }
+    })();
   </script>
 </body>
 </html>
