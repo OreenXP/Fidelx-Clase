@@ -1,3 +1,4 @@
+import * as z from "zod";
 //===============TIENDA===============//
 export const loginTiendaSchema = z.object({
   password_hash: z.string().min(1, "Contrasena requerida."),

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Tienda - Fidelix</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">&#9670;</span>Fidelix</a>
+      <button class="nav-toggle" aria-label="Menú"><span></span><span></span><span></span></button>
+      <ul class="nav-menu">
+        <li><a href="index.html#servicios" class="nav-link">Servicios</a></li>
+        <li><a href="register-store.html" class="nav-link">Registrarse</a></li>
+        <li><a href="login.html" class="nav-btn">Iniciar Sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="form-page">
+    <div class="form-container">
+      <div class="form-box">
+        <div class="form-header">
+          <span class="logo-icon">&#9670;</span>
+          <h1>Registrar Tienda</h1>
+          <p>Crea tu tienda y empieza a fidelizar clientes</p>
+        </div>
+        <div class="alert"></div>
+        <form id="registerStoreForm">
+          <div class="form-group">
+            <label for="nombre">Nombre de la tienda</label>
+            <input type="text" id="nombre" placeholder="Ej: Café Express" required>
+            <div class="form-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción (opcional)</label>
+            <textarea id="descripcion" rows="3" placeholder="Cuéntanos sobre tu tienda..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="logo_url">URL del logo (opcional)</label>
+            <input type="url" id="logo_url" placeholder="https://ejemplo.com/logo.png">
+          </div>
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="tienda@correo.com" required>
+            <div class="form-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="password-wrapper">
+              <input type="password" id="password" placeholder="Mín. 8 caracteres, 1 mayúscula, 1 dígito" required>
+              <button type="button" class="password-toggle" onclick="togglePassword(this)">👁️</button>
+            </div>
+            <div class="form-error"></div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Registrar Tienda</button>
+        </form>
+        <div class="form-footer">
+          ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById('registerStoreForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const container = e.target.closest('.form-box');
+      hideAlert(container);
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
+      const logo_url = document.getElementById('logo_url').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      let valid = true;
+      [
+        document.getElementById('nombre'),
+        document.getElementById('email'),
+        document.getElementById('password')
+      ].forEach(i => clearFieldError(i));
+
+      if (!nombre) { showFieldError(document.getElementById('nombre'), 'El nombre es requerido'); valid = false; }
+      if (!validateEmail(email)) { showFieldError(document.getElementById('email'), 'Correo inválido'); valid = false; }
+      if (!validatePassword(password)) {
+        showFieldError(document.getElementById('password'), 'Mínimo 8 caracteres, 1 mayúscula y 1 dígito');
+        valid = false;
+      }
+      if (!valid) return;
+
+      const btn = e.target.querySelector('button[type="submit"]');
+      setLoading(btn, true);
+
+      try {
+        const res = await fetch('http://localhost:3000/auth/register-tienda', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre,
+            descripcion: descripcion || undefined,
+            logo_url: logo_url || undefined,
+            email,
+            password
+          })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showAlert(container, data.error || data.mensaje || 'Error al registrar tienda');
+          setLoading(btn, false);
+          return;
+        }
+
+        showAlert(container, '¡Tienda registrada! Revisa tu correo para verificar.', 'success');
+        btn.disabled = true;
+        btn.textContent = 'Registrado ✓';
+      } catch (err) {
+        showAlert(container, err.message || 'Error de conexión con el servidor');
+        setLoading(btn, false);
+      }
+    });
+  </script>
+</body>
+</html>

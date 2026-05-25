@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Promociones - Fidelix</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .dashboard { display: flex; min-height: 100vh; padding-top: 68px; }
+    .sidebar {
+      width: 260px; background: white; border-right: 1px solid var(--gray-200);
+      padding: 24px 16px; display: flex; flex-direction: column; position: fixed;
+      top: 68px; bottom: 0;
+    }
+    .sidebar-user {
+      display: flex; align-items: center; gap: 12px; padding: 12px;
+      background: var(--gray-50); border-radius: var(--radius-sm); margin-bottom: 24px;
+    }
+    .sidebar-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 1rem;
+    }
+    .sidebar-name { font-size: 0.9rem; font-weight: 600; color: var(--gray-900); }
+    .sidebar-email { font-size: 0.75rem; color: var(--gray-400); }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 500;
+      color: var(--gray-600); transition: var(--transition);
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+      background: var(--primary-50); color: var(--primary-600);
+    }
+    .sidebar-link.active { font-weight: 600; }
+    .sidebar-link svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .sidebar-logout {
+      margin-top: auto; padding: 10px 12px; border-radius: var(--radius-sm);
+      font-size: 0.9rem; font-weight: 500; color: #ef4444;
+      background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: var(--transition);
+    }
+    .sidebar-logout:hover { background: #fef2f2; }
+    .main-content { flex: 1; margin-left: 260px; padding: 32px 40px; }
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;
+    }
+    .page-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--gray-900); }
+    .page-header p { color: var(--gray-500); font-size: 0.9rem; margin-top: 4px; }
+    .empty-state {
+      text-align: center; padding: 80px 24px; background: white;
+      border-radius: var(--radius-lg); border: 2px dashed var(--gray-200);
+    }
+    .empty-state svg { width: 56px; height: 56px; color: var(--gray-300); margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
+    .empty-state p { color: var(--gray-400); font-size: 0.9rem; max-width: 360px; margin: 0 auto; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">&#9670;</span>Fidelix</a>
+      <button class="nav-toggle" aria-label="Menú"><span></span><span></span><span></span></button>
+      <ul class="nav-menu">
+        <li><span id="userNameDisplay" style="font-size:0.9rem;font-weight:500;color:var(--gray-600);"></span></li>
+        <li><a href="#" id="logoutLink" class="nav-btn" style="background:#ef4444;">Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="avatar">C</div>
+        <div>
+          <div class="sidebar-name" id="sidebarName">Cliente</div>
+          <div class="sidebar-email" id="sidebarEmail">correo@ejemplo.com</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="sidebar-link active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Mis Promociones
+        </a>
+        <a href="#" class="sidebar-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Historial
+        </a>
+      </nav>
+      <button class="sidebar-logout" id="sidebarLogout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Cerrar Sesión
+      </button>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>Mis Promociones</h1>
+          <p>Aquí verás las promociones disponibles de tus tiendas favoritas</p>
+        </div>
+      </div>
+
+      <div class="empty-state" id="promosContainer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <h3>No hay promociones disponibles</h3>
+        <p>Cuando las tiendas creen promociones, aparecerán aquí. Mientras tanto, explora las tiendas registradas.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    const token = localStorage.getItem('token');
+    const tipo = localStorage.getItem('tipo');
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+
+    if (!token || tipo !== 'cliente') {
+      window.location.href = 'login.html';
+    }
+
+    const name = usuario.nombre || 'Cliente';
+    const email = usuario.email || '';
+    const initial = name.charAt(0).toUpperCase();
+
+    document.getElementById('avatar').textContent = initial;
+    document.getElementById('sidebarName').textContent = name;
+    document.getElementById('sidebarEmail').textContent = email;
+    document.getElementById('userNameDisplay').textContent = `Hola, ${name}`;
+
+    async function logout() {
+      try {
+        await apiRequest('/api/logout', { method: 'POST' });
+      } catch (e) {}
+      localStorage.removeItem('token');
+      localStorage.removeItem('tipo');
+      localStorage.removeItem('usuario');
+      window.location.href = 'index.html';
+    }
+
+    document.getElementById('logoutLink').addEventListener('click', (e) => { e.preventDefault(); logout(); });
+    document.getElementById('sidebarLogout').addEventListener('click', logout);
+  </script>
+</body>
+</html>
