@@ -1,7 +1,7 @@
 import { logger } from "../../../config/logger.js";
 import { loginCliente, loginTienda } from "./login.service.js";
 
-export async function loginClient(req, res) {
+export async function loginClientController(req, res) {
   const { email, password_hash: password } = req.body;
 
   if (!email || !password) {
@@ -38,7 +38,7 @@ export async function loginClient(req, res) {
   }
 }
 
-export async function loginTienda(req, res) {
+export async function loginTiendaController(req, res) {
   const { email, password_hash: password } = req.body;
 
   if (!email || !password) {

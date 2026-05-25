@@ -1,5 +1,4 @@
-const { z } = require("zod");
-
+import { z } from "zod";
 export const uuidSchema = z.string().uuid("ID inválido");
 
 export const createProductsSchema = z.object({
