@@ -7,7 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export const sendVerificacionCliente = async (email, token) => {
   // Construimos el link que el cliente va a clickear
   // El front recibe el token y llama al back para verificarlo
-  const link = `${process.env.FRONTEND_URL}/auth/cliente/verify?token=${token}`;
+  const link = `${process.env.FRONTEND_URL}/verify.html?token=${token}&tipo=cliente`;
   await resend.emails.send({
     from: "FidelX <onboarding@resend.dev>", // dominio gratuito de Resend
     to: email,
@@ -33,7 +33,7 @@ export const sendVerificacionCliente = async (email, token) => {
 
 // ─── Email de verificación para Tiendas ──────────────────────────────────────
 export const sendVerificacionTienda = async (email, token) => {
-  const link = `${process.env.FRONTEND_URL}/tiendas/verificar-cuenta?token=${token}`;
+  const link = `${process.env.FRONTEND_URL}/verify.html?token=${token}&tipo=tienda`;
 
   await resend.emails.send({
     from: "FidelX <onboarding@resend.dev>",

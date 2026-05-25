@@ -1,5 +1,5 @@
 import { logger } from "../../../config/logger.js";
-import { loginCliente, loginTienda } from "./login.service.js";
+import { loginCliente, loginTienda as loginTiendaService } from "./login.service.js";
 
 export async function loginClientController(req, res) {
   const { email, password_hash: password } = req.body;
@@ -55,7 +55,7 @@ export async function loginTiendaController(req, res) {
   }
 
   try {
-    const resultado = await loginTienda(email, password);
+    const resultado = await loginTiendaService(email, password);
 
     return res.status(200).json(resultado);
   } catch (error) {
