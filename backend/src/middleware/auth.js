@@ -29,6 +29,10 @@ const authMiddleware = async (req, res, next) => {
     req.tipoUsuario = tokenExistente.cliente ? 'cliente' : 'tienda';
     req.tokenId = tokenExistente.id;
 
+    if (tokenExistente.tienda) {
+      req.tiendaId = tokenExistente.tienda.id;
+    }
+
     next();
   } catch (error) {
     console.error('Error en auth middleware:', error);
