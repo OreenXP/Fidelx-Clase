@@ -7,5 +7,5 @@ export const loginTiendaSchema = z.object({
 //===============CLIENTE===============//
 export const loginClienteSchema = z.object({
   password_hash: z.string().min(1, "Contrasena requerida."),
-  email: z.string().email("Contrasena requerida."),
+  email: z.string().email("Email invalido."),
 });

@@ -8,6 +8,7 @@ import {
   eliminar,
 } from "./products.controller.js";
 import { validate } from "../../middleware/validate.js";
+import { authMiddleware } from "../../middleware/auth.js";
 import {
   createProductsSchema,
   editProductoSchema,
@@ -20,16 +21,17 @@ export const router = Router();
 router.get("/", listar);
 router.get(
   "/tienda/:tiendaId",
-  validate(paramsTiendaIdSchema),
+  validate(paramsTiendaIdSchema, "params"),
   obtenerPorTienda,
 );
-router.get("/:id", validate(paramsIdSchema), obtenerPorId);
-router.post("/", validate(createProductsSchema), crear);
+router.get("/:id", validate(paramsIdSchema, "params"), obtenerPorId);
+router.post("/", authMiddleware, validate(createProductsSchema), crear);
 router.put(
   "/:id",
-  validate(paramsIdSchema),
+  authMiddleware,
+  validate(paramsIdSchema, "params"),
   validate(editProductoSchema),
   actualizar,
 );
-router.delete("/:id", validate(paramsIdSchema), eliminar);
+router.delete("/:id", authMiddleware, validate(paramsIdSchema, "params"), eliminar);
 
