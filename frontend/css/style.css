@@ -120,6 +120,15 @@ ul { list-style: none; }
   position: relative;
 }
 
+.nav-link.active {
+  color: var(--gray-900);
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
 .nav-link::after {
   content: '';
   position: absolute;
