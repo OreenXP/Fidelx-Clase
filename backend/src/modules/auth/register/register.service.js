@@ -38,7 +38,7 @@ export async function registrarCliente(
       password_hash: passwordHasheada,
       telefono: telefono || null,
       fechaNacimiento: fechaNacimiento ? new Date(fechaNacimiento) : null,
-      estado: "pendiente",
+      estado: "activo",
     },
   });
 
@@ -138,7 +138,7 @@ export async function registrarTienda(
       logo_url: logo_url,
       email: email,
       password_hash: passwordHasheada,
-      estado: "pendiente",
+      estado: "activo",
     },
   });
 
