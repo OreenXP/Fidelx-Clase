@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   crear,
   listar,
+  listarPublicos,
   obtenerPorId,
   obtenerPorTienda,
   actualizar,
@@ -18,6 +19,7 @@ import { z } from "zod";
 const paramsIdSchema = z.object({ id: uuidSchema }).strict();
 const paramsTiendaIdSchema = z.object({ tiendaId: uuidSchema }).strict();
 export const router = Router();
+router.get("/public", listarPublicos);
 router.get("/", listar);
 router.get(
   "/tienda/:tiendaId",

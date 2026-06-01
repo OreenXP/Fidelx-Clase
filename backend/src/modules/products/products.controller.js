@@ -23,6 +23,23 @@ export const crear = async (req, res) => {
     });
   }
 };
+// READ PUBLIC - Listar solo productos publicados (activos) con tienda
+export const listarPublicos = async (req, res) => {
+  try {
+    const productos = await obtenerProductos({ estado: "activo" });
+    return res.status(200).json({
+      success: true,
+      total: productos.length,
+      data: productos,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      mensaje: error.message,
+    });
+  }
+};
+
 // READ ALL - Listar productos con filtros
 export const listar = async (req, res) => {
   try {
