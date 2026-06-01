@@ -1,0 +1,202 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --- TABLAS FIDELX V1.2 ---
+
+model Cliente {
+  id              String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre          String             @db.VarChar(100)
+  apellido        String             @db.VarChar(100)
+  telefono        String?            @db.VarChar(15)
+  fechaNacimiento DateTime?          @db.Date
+  email           String             @unique @db.VarChar(150)
+  password_hash   String             @db.VarChar(255)
+  estado          String?            @default("pendiente") @db.VarChar(20) // Lo dejé en pendiente asumiendo que validarás el correo
+  createdAt       DateTime           @default(now())
+  
+  // Relaciones
+  tiendas         ClienteTienda[]
+  qrs             Qr[]
+  acumulaciones   Acumulacion[]
+  progresos       ProgresoPromocion[]
+  canjes          Canje[]
+  tokens          Token[]            // <-- Relación agregada para los tokens
+}
+
+model Tienda {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre        String          @db.VarChar(150)
+  descripcion   String?         @db.Text
+  logo_url      String?         @db.VarChar(255)
+  email         String          @unique @db.VarChar(150)
+  password_hash String          @db.VarChar(255)
+  estado        String?         @default("pendiente") @db.VarChar(20) // Igual aquí, pendiente hasta verificar
+  createdAt     DateTime        @default(now())
+  
+  // Relaciones
+  clientes      ClienteTienda[]
+  categorias    Categoria[]
+  productos     Producto[]
+  promociones   Promocion[]
+  qrs           Qr[]
+  tokens        Token[]         
+}
+
+model ClienteTienda {
+  idCliente     String    @db.Uuid
+  idTienda      String    @db.Uuid
+  fechaRegistro DateTime  @default(now())
+  estado        String?   @default("Activo") @db.VarChar(20)
+
+  cliente       Cliente   @relation(fields: [idCliente], references: [id], onDelete: Cascade)
+  tienda        Tienda    @relation(fields: [idTienda], references: [id], onDelete: Cascade)
+
+  @@id([idCliente, idTienda])
+}
+
+model Categoria {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idTienda    String     @db.Uuid
+  nombre      String     @db.VarChar(100)
+  descripcion String?    @db.Text
+
+  tienda      Tienda     @relation(fields: [idTienda], references: [id], onDelete: Cascade)
+  productos   Producto[]
+}
+
+model Producto {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idTienda    String      @db.Uuid
+  idCategoria String?     @db.Uuid
+  nombre      String      @db.VarChar(150)
+  descripcion String?     @db.Text
+  precio      Decimal     @db.Decimal(10, 2)
+  imagen_url  String?     @db.VarChar(255)
+  estado      String?     @default("activo") @db.VarChar(20)
+  createdAt   DateTime    @default(now())
+
+  tienda      Tienda      @relation(fields: [idTienda], references: [id], onDelete: Cascade)
+  categoria   Categoria?  @relation(fields: [idCategoria], references: [id], onDelete: SetNull)
+  promociones Promocion[]
+}
+
+model Promocion {
+  id               String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idTienda         String              @db.Uuid
+  idProducto       String              @db.Uuid
+  nombre           String              @db.VarChar(150)
+  descripcion      String?             @db.Text
+  unidadesObjetivo Int
+  fechaInicio      DateTime            @db.Date
+  fechaFin         DateTime?           @db.Date
+  estado           String?             @default("activa") @db.VarChar(20)
+  createdAt        DateTime            @default(now())
+
+  tienda           Tienda              @relation(fields: [idTienda], references: [id], onDelete: Cascade)
+  producto         Producto            @relation(fields: [idProducto], references: [id], onDelete: Cascade)
+  recompensa       Recompensa?
+  acumulaciones    Acumulacion[]
+  progresos        ProgresoPromocion[]
+}
+
+model Recompensa {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idPromocion String    @unique @db.Uuid
+  tipo        String    @db.VarChar(30)
+  valor       Decimal?  @db.Decimal(10, 2)
+  estado      String?   @default("activa") @db.VarChar(20)
+  createdAt   DateTime  @default(now())
+
+  promocion   Promocion @relation(fields: [idPromocion], references: [id], onDelete: Cascade)
+  canjes      Canje[]
+}
+
+model Qr {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idTienda        String        @db.Uuid
+  idCliente       String        @db.Uuid
+  status          String?       @default("activo") @db.VarChar(20)
+  fechaCreacion   DateTime      @default(now())
+  fechaExpiracion DateTime
+  
+  tienda          Tienda        @relation(fields: [idTienda], references: [id], onDelete: Cascade)
+  cliente         Cliente       @relation(fields: [idCliente], references: [id], onDelete: Cascade)
+  acumulaciones   Acumulacion[]
+}
+
+model Acumulacion {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idCliente   String    @db.Uuid
+  idPromocion String    @db.Uuid
+  idQR        String?   @db.Uuid
+  cantidad    Int       @default(1)
+  fecha       DateTime  @default(now())
+
+  cliente     Cliente   @relation(fields: [idCliente], references: [id], onDelete: Cascade)
+  promocion   Promocion @relation(fields: [idPromocion], references: [id], onDelete: Cascade)
+  qr          Qr?       @relation(fields: [idQR], references: [id], onDelete: SetNull)
+}
+
+model ProgresoPromocion {
+  idCliente           String    @db.Uuid
+  idPromocion         String    @db.Uuid
+  totalAcumulado      Int       @default(0)
+  ultimaActualizacion DateTime  @default(now())
+
+  cliente             Cliente   @relation(fields: [idCliente], references: [id], onDelete: Cascade)
+  promocion           Promocion @relation(fields: [idPromocion], references: [id], onDelete: Cascade)
+
+  @@id([idCliente, idPromocion])
+}
+
+model Canje {
+  id              String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idCliente       String     @db.Uuid
+  idRecompensa    String     @db.Uuid
+  codigo          String     @unique @db.VarChar(20)
+  estado          String?    @default("pendiente") @db.VarChar(20)
+  fechaGeneracion DateTime   @default(now())
+  fechaExpiracion DateTime?
+  fechaUso        DateTime?
+
+  cliente         Cliente    @relation(fields: [idCliente], references: [id], onDelete: Cascade)
+  recompensa      Recompensa @relation(fields: [idRecompensa], references: [id], onDelete: Cascade)
+}
+
+// --- NUEVA TABLA DE TOKENS ---
+
+model Token {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token     String   @unique @db.VarChar(255)
+  tipo      String   @db.VarChar(50) // e.g., "VERIFICACION", "RECUPERACION"
+  createdAt DateTime @default(now())
+  expiresAt DateTime? // Opcional: para darle caducidad al token
+
+  // Relación con Cliente (Opcional)
+  clienteId String?  @db.Uuid
+  cliente   Cliente? @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+
+  // Relación con Tienda (Opcional)
+  tiendaId  String?  @db.Uuid
+  tienda    Tienda?  @relation(fields: [tiendaId], references: [id], onDelete: Cascade)
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  email     String
+  tipo      String   // "tienda" o "cliente"
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
