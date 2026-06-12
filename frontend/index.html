@@ -1,177 +1,239 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fidelix - Programa de Fidelización</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
-<body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="/" class="nav-logo">
-        <span class="logo-icon">&#9670;</span>
-        Fidelix
-      </a>
-      <button class="nav-toggle" aria-label="Menú">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-menu">
-        <li><a href="#servicios" class="nav-link">Servicios</a></li>
-        <li><a href="#como-funciona" class="nav-link">Cómo funciona</a></li>
-        <li><a href="register-client.html" class="nav-link">Registrarse</a></li>
-        <li><a href="login.html" class="nav-btn">Iniciar Sesión</a></li>
-      </ul>
-    </div>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fidelix - Programa de Fidelización</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  <header class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <span class="hero-badge">Programa de Fidelización</span>
-      <h1>Conectamos <span class="highlight">comercios</span> con sus <span class="highlight">clientes</span></h1>
-      <p class="hero-subtitle">
-        La forma más inteligente de gestionar promociones, acumular puntos y fidelizar clientes.
-        Todo en un solo lugar.
-      </p>
-      <div class="hero-actions">
-        <a href="register-client.html" class="btn btn-primary">Soy Cliente</a>
-        <a href="register-store.html" class="btn btn-secondary">Soy Tienda</a>
-      </div>
-    </div>
-  </header>
-
-  <section id="servicios" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Servicios</span>
-        <h2>Todo lo que necesitas para fidelizar</h2>
-        <p>Ofrecemos las herramientas necesarias para que comercios y clientes se conecten de manera efectiva.</p>
-      </div>
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-icon" style="--icon-color: #3b82f6;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-            </svg>
-          </div>
-          <h3>Promociones Inteligentes</h3>
-          <p>Crea promociones personalizadas con objetivos de acumulación y recompensas automáticas para tus clientes.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon" style="--icon-color: #6366f1;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <path d="M3 9h18M9 21V9"/>
-            </svg>
-          </div>
-          <h3>Panel de Control</h3>
-          <p>Gestiona tus productos, categorías y promociones desde un panel intuitivo diseñado para tiendas.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon" style="--icon-color: #06b6d4;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 12a9 9 0 1 1-9-9"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
-          </div>
-          <h3>Seguimiento en Tiempo Real</h3>
-          <p>Los clientes pueden ver su progreso en cada promoción y canjear recompensas al instante.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon" style="--icon-color: #8b5cf6;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-          <h3>Seguridad Garantizada</h3>
-          <p>Autenticación segura con JWT y verificación de email para proteger los datos de todos los usuarios.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="como-funciona" class="section section-alt">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Cómo funciona</span>
-        <h2>Dos roles, un solo objetivo</h2>
-        <p>Fidelix conecta tiendas y clientes en un ecosistema de beneficios mutuos.</p>
-      </div>
-      <div class="roles-grid">
-        <div class="role-card role-store">
-          <div class="role-header">
-            <span class="role-icon">&#x1F3EA;</span>
-            <h3>Para Tiendas</h3>
-          </div>
-          <ul class="role-list">
-            <li>Registra tu tienda y crea tu perfil</li>
-            <li>Gestiona productos y categorías</li>
-            <li>Crea promociones con recompensas</li>
-            <li>Genera códigos QR para tus clientes</li>
-            <li>Monitorea el progreso de tus promociones</li>
-          </ul>
-          <a href="register-store.html" class="btn btn-outline">Crear Tienda</a>
-        </div>
-        <div class="role-card role-client">
-          <div class="role-header">
-            <span class="role-icon">&#x1F464;</span>
-            <h3>Para Clientes</h3>
-          </div>
-          <ul class="role-list">
-            <li>Regístrate como cliente en segundos</li>
-            <li>Descubre promociones de tus tiendas favoritas</li>
-            <li>Acumula progreso con cada compra</li>
-            <li>Canjea recompensas automáticamente</li>
-            <li>Recibe notificaciones de nuevas ofertas</li>
-          </ul>
-          <a href="register-client.html" class="btn btn-outline">Crear Cuenta</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta-section">
-    <div class="container">
-      <div class="cta-box">
-        <h2>¿Listo para empezar?</h2>
-        <p>Únete a Fidelix y transforma la forma en que te relacionas con tus clientes o tiendas favoritas.</p>
-        <div class="cta-actions">
-          <a href="register-client.html" class="btn btn-primary">Registrarme como Cliente</a>
-          <a href="register-store.html" class="btn btn-secondary">Registrar mi Tienda</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-brand">
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-logo">
           <span class="logo-icon">&#9670;</span>
-          <span class="footer-logo">Fidelix</span>
-          <p>Programa de fidelización inteligente para comercios y clientes.</p>
-        </div>
-        <div class="footer-links">
-          <h4>Plataforma</h4>
-          <a href="#servicios">Servicios</a>
-          <a href="#como-funciona">Cómo funciona</a>
-        </div>
-        <div class="footer-links">
-          <h4>Acceso</h4>
-          <a href="login.html">Iniciar Sesión</a>
-          <a href="register-client.html">Registro Cliente</a>
-          <a href="register-store.html">Registro Tienda</a>
+          Fidelix
+        </a>
+        <button class="nav-toggle" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="#servicios" class="nav-link">Servicios</a></li>
+          <li><a href="#como-funciona" class="nav-link">Cómo funciona</a></li>
+          <li>
+            <a href="register-client.html" class="nav-link">Registrarse</a>
+          </li>
+          <li><a href="login.html" class="nav-btn">Iniciar Sesión</a></li>
+        </ul>
+      </div>
+    </nav>
+    <!-- prime -->
+    <header class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <span class="hero-badge">Programa de Fidelización</span>
+        <h1>
+          Conectamos <span class="highlight">comercios</span> con sus
+          <span class="highlight">clientes</span>
+        </h1>
+        <p class="hero-subtitle">
+          La forma más inteligente de gestionar promociones, acumular puntos y
+          fidelizar clientes. Todo en un solo lugar.
+        </p>
+        <div class="hero-actions">
+          <a href="register-client.html" class="btn btn-primary">Soy Cliente</a>
+          <a href="register-store.html" class="btn btn-secondary">Soy Tienda</a>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Fidelix. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
+    </header>
 
-  <script src="js/main.js"></script>
-</body>
+    <section id="servicios" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Servicios</span>
+          <h2>Todo lo que necesitas para fidelizar</h2>
+          <p>
+            Ofrecemos las herramientas necesarias para que comercios y clientes
+            se conecten de manera efectiva.
+          </p>
+        </div>
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon" style="--icon-color: #3b82f6">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                />
+              </svg>
+            </div>
+            <h3>Promociones Inteligentes</h3>
+            <p>
+              Crea promociones personalizadas con objetivos de acumulación y
+              recompensas automáticas para tus clientes.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="--icon-color: #6366f1">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+            </div>
+            <h3>Panel de Control</h3>
+            <p>
+              Gestiona tus productos, categorías y promociones desde un panel
+              intuitivo diseñado para tiendas.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="--icon-color: #06b6d4">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 12a9 9 0 1 1-9-9" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h3>Seguimiento en Tiempo Real</h3>
+            <p>
+              Los clientes pueden ver su progreso en cada promoción y canjear
+              recompensas al instante.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="--icon-color: #8b5cf6">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h3>Seguridad Garantizada</h3>
+            <p>
+              Autenticación segura con JWT y verificación de email para proteger
+              los datos de todos los usuarios.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Cómo funciona</span>
+          <h2>Dos roles, un solo objetivo</h2>
+          <p>
+            Fidelix conecta tiendas y clientes en un ecosistema de beneficios
+            mutuos.
+          </p>
+        </div>
+        <div class="roles-grid">
+          <div class="role-card role-store">
+            <div class="role-header">
+              <span class="role-icon">&#x1F3EA;</span>
+              <h3>Para Tiendas</h3>
+            </div>
+            <ul class="role-list">
+              <li>Registra tu tienda y crea tu perfil</li>
+              <li>Gestiona productos y categorías</li>
+              <li>Crea promociones con recompensas</li>
+              <li>Genera códigos QR para tus clientes</li>
+              <li>Monitorea el progreso de tus promociones</li>
+            </ul>
+            <a href="register-store.html" class="btn btn-outline"
+              >Crear Tienda</a
+            >
+          </div>
+          <div class="role-card role-client">
+            <div class="role-header">
+              <span class="role-icon">&#x1F464;</span>
+              <h3>Para Clientes</h3>
+            </div>
+            <ul class="role-list">
+              <li>Regístrate como cliente en segundos</li>
+              <li>Descubre promociones de tus tiendas favoritas</li>
+              <li>Acumula progreso con cada compra</li>
+              <li>Canjea recompensas automáticamente</li>
+              <li>Recibe notificaciones de nuevas ofertas</li>
+            </ul>
+            <a href="register-client.html" class="btn btn-outline"
+              >Crear Cuenta</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta-box">
+          <h2>¿Listo para empezar?</h2>
+          <p>
+            Únete a Fidelix y transforma la forma en que te relacionas con tus
+            clientes o tiendas favoritas.
+          </p>
+          <div class="cta-actions">
+            <a href="register-client.html" class="btn btn-primary"
+              >Registrarme como Cliente</a
+            >
+            <a href="register-store.html" class="btn btn-secondary"
+              >Registrar mi Tienda</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <span class="logo-icon">&#9670;</span>
+            <span class="footer-logo">Fidelix</span>
+            <p>
+              Programa de fidelización inteligente para comercios y clientes.
+            </p>
+          </div>
+          <div class="footer-links">
+            <h4>Plataforma</h4>
+            <a href="#servicios">Servicios</a>
+            <a href="#como-funciona">Cómo funciona</a>
+          </div>
+          <div class="footer-links">
+            <h4>Acceso</h4>
+            <a href="login.html">Iniciar Sesión</a>
+            <a href="register-client.html">Registro Cliente</a>
+            <a href="register-store.html">Registro Tienda</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 Fidelix. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
 </html>
